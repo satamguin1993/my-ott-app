@@ -5,14 +5,14 @@ import {action} from "mobx";
 class buyAndSellServices {
 
     async fetchAllPackageList(packageId,startDate, endDate){
-        let url = "localhost:8080/panchtantra/v1/inventory";
+        let url = "http://localhost:9080/panchtantra/v1/inventory?packageId=1&startDate=01/09/2020&endDate=30/09/2020";
         let apiResponse = null;
         let params = {
-            packageId : packageId,
-            startDate : startDate,
-            endDate : endDate
+            packageId : 1,
+            startDate : "01/01/2020",
+            endDate : "12/12/2020"
         }
-        await axios.get(url, {headers: {'Content-Type': 'application/json'}}, params)
+        await axios.get(url, {headers: {'Content-Type': 'application/json'}})
             .then((response) => {
                 apiResponse = response.data
             })
@@ -24,7 +24,7 @@ class buyAndSellServices {
 
     @action.bound
     errorHandle = (error) => {
-
+        return error;
     }
 
 }

@@ -39,8 +39,8 @@ class buyStore {
         let packageId = this.convertOttToPackageId(ottName);
         let fetchPackageList = await apiService.fetchAllPackageList(packageId, startDate, endDate);
 
-        if (fetchPackageList && fetchPackageList.Inventories){
-            this.packageList = this.packageList.concat(fetchPackageList.Inventories);
+        if (fetchPackageList){
+            this.packageList = this.packageList.concat(fetchPackageList);
             this.isFetchingReports = false;
         }
     }

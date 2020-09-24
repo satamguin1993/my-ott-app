@@ -19,7 +19,7 @@ class buyContainer extends React.Component{
         subscriptionDays : 0,
         startDate : null,
         endDate : null,
-        isValid : false
+        isValid : true
     };
 
     componentDidMount() {
@@ -80,14 +80,14 @@ class buyContainer extends React.Component{
     }
 
     validateDetails = () => {
-        if (this.state.startDate && this.state.endDate){
+        /*if (this.state.startDate && this.state.endDate){
             if(this.state.startDate < this.state.endDate) {
                 this.setState({isValid : true})
                 return false;
             }
         }
         this.setState({isValid : false})
-        return true;
+        return true;*/
     }
 
     render() {

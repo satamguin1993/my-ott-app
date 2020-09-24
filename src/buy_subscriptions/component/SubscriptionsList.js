@@ -4,6 +4,7 @@ import SpinnerWithText from "../../../../common/components/SpinnerWithText";
 import {Table, TH, THead} from "@react/react-spectrum/Table";
 import {ShowAllPackageListTableHeaders} from "../constants/constants";
 import {observer} from "mobx-react";
+import PackageListBody from './PackageListBody';
 
 @observer
 class SubscriptionsList extends React.Component {
@@ -23,7 +24,7 @@ class SubscriptionsList extends React.Component {
         return (
             <Table className="manage-reports-table">
                 <THead>{ShowAllPackageListTableHeaders.map((header, idx) => <TH key={idx}>{header}</TH>)}</THead>
-                {/*<PackageListBody packageList={buyStore.packageList} />*/}
+                <PackageListBody packageList={buyStore.packageList} />
             </Table>
         );
     }
