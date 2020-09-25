@@ -11,7 +11,7 @@ class SubscriptionsList extends React.Component {
 
     componentDidMount() {
         if (!(buyStore.inventoryList && buyStore.inventoryList.length > 0))
-            buyStore.fetchAllInventoriesByPackage(this.props.packageId, this.props.startDate, this.props.endDate);
+            buyStore.fetchAllInventoriesByPackage(this.props.packageId);
     }
 
     render() {
