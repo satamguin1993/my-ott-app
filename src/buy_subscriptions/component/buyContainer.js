@@ -3,12 +3,13 @@ import RadioGroup from '@react/react-spectrum/RadioGroup';
 import Radio from '@react/react-spectrum/Radio';
 import Button from "@react/react-spectrum/Button";
 import PaymentDetails from './PaymentDetails';
-import ConfirmDetails from './ConfirmDetails';
 import {Form, FormItem} from "@react/react-spectrum/Form";
 import Datepicker from "@react/react-spectrum/Datepicker";
 import SubscriptionsList from "./SubscriptionsList";
 import {observer} from 'mobx-react';
 import buyStore from './../store/buyStore';
+import LabelValuePair from "../../../../common/components/LabelValuePair";
+import PackageDetails from "./PackageDetails";
 
 @observer
 class buyContainer extends React.Component{
@@ -18,8 +19,8 @@ class buyContainer extends React.Component{
         subscriptionChannel : null,
         subscriptionDays : 0,
         startDate : null,
-        endDate : null,
-        isValid : true
+        endDate : '12/12/2020',
+        isValid : '01/01/2020'
     };
 
     componentDidMount() {
@@ -50,16 +51,16 @@ class buyContainer extends React.Component{
     getNextStepFromCurrentStep = (step, isForwardOrder) => {
         switch (step) {
             case 'radio' :
-                return isForwardOrder ? 'connection' : step;
+                return isForwardOrder ? 'package' : step;
+                break;
+            case 'package':
+                return isForwardOrder ? 'connection' : 'radio';
                 break;
             case 'connection':
-                return isForwardOrder ? 'payment' : 'radio';
+                return isForwardOrder ? 'payment' : 'package';
                 break;
             case 'payment':
-                return isForwardOrder ? 'email' : 'connection';
-                break;
-            case 'email':
-                return  isForwardOrder ? step : 'payment';
+                return  isForwardOrder ? step : 'connection';
                 break;
             default:
                 return null;
@@ -92,7 +93,7 @@ class buyContainer extends React.Component{
 
     render() {
         return (
-            <div>
+            <div className="manageContainer">
                 <h2> Fill up the details for the buyers </h2>
                 <hr />
                 {this.state.activeState === 'radio' ?
@@ -116,6 +117,10 @@ class buyContainer extends React.Component{
                             </FormItem>
                         </Form>
                     </div> : <div />}
+                {this.state.activeState === 'package' ?
+                    <div className="subscriptionsList">
+                        <PackageDetails />
+                    </div> : <div />}
                 {this.state.activeState === 'connection' ?
                     <div className="subscriptionsList">
                         <SubscriptionsList ottName={this.state.subscriptionChannel}
@@ -128,15 +133,15 @@ class buyContainer extends React.Component{
                                         connections={this.state.connections}
                                         noOfDays/>
                     </div> : <div />}
-                { this.state.activeState === 'email' ?
-                    <div className="email">
-                        <ConfirmDetails />
-                    </div> : <div />}
+                <br />
+                <br />
+                {buyStore.validUniqueURL ?
+                    <LabelValuePair label="Unique URL" value={buyStore.validUniqueURL}/> : <div />}
                 <br />
                 {<div>
                     <Button variant={'action'} disabled={this.state.activeState === 'radio'}
                          onClick={() => this.viewPrevStep()}> Previous Step </Button>
-                    <Button variant={'action'} disabled={this.state.activeState === 'email' || !this.state.isValid}
+                    <Button variant={'action'} disabled={this.state.activeState === 'payment' || !this.state.isValid}
                         onClick={() => {this.viewNextStep()}}> Next Step </Button>
                 </div>}
             </div>

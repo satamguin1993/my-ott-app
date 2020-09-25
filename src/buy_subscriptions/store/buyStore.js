@@ -10,7 +10,11 @@ class buyStore {
     @observable endDate;
     @observable subscriptionsData;
     @observable packageList;
+    @observable inventoryList;
     @observable isFetchingReports;
+    @observable buyRequest;
+    @observable inValidUniqueURL;
+    @observable validUniqueURL;
 
     constructor() {
         this.buyData = null;
@@ -19,7 +23,10 @@ class buyStore {
         this.endDate = null;
         this.subscriptionsData = null;
         this.packageList = [];
+        this.inventoryList = [];
         this.isFetchingReports = false;
+        this.inValidUniqueURL = null;
+        this.validUniqueURL = null;
     }
 
     @action.bound
@@ -33,15 +40,43 @@ class buyStore {
         }
     }
 
-    async fetchByOttStartAndEndDate(ottName, startDate, endDate){
+    async fetchAllInventoriesByPackage(packageId){
         this.isFetchingReports = true;
-        let apiResponse = null;
-        let packageId = this.convertOttToPackageId(ottName);
-        let fetchPackageList = await apiService.fetchAllPackageList(packageId, startDate, endDate);
+        //let packageId = this.convertOttToPackageId(ottName);
+        let fetchInventoryList = await apiService.fetchALlInventoryList(packageId,
+            this.props.startDate, this.props.endDate);
+
+        if (fetchInventoryList){
+            this.inventoryList = this.inventoryList.concat(fetchInventoryList);
+            this.isFetchingReports = false;
+        }
+    }
+
+    async fetchPackageDetailsList(){
+        this.isFetchingReports = true;
+        let fetchPackageList = await apiService.fetchAllPackageList();
 
         if (fetchPackageList){
             this.packageList = this.packageList.concat(fetchPackageList);
             this.isFetchingReports = false;
+        }
+    }
+
+    async saveBuyRequest(){
+        let apiResponse = await apiService.saveBuyRequest();
+        if (apiResponse && apiResponse.error) {
+
+        } else if (apiResponse){
+            this.validUniqueURL = apiResponse.uniqueURL;
+        }
+    }
+
+    @action.bound
+    updatePostBuyRequest(packageId, startDate, endDate){
+        this.buyRequest = {
+            packageId : packageId,
+            startDate : startDate,
+            endDate : endDate
         }
     }
 

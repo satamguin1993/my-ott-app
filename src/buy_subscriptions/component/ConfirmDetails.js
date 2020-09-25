@@ -3,6 +3,7 @@ import {Form, FormItem} from "@react/react-spectrum/Form";
 import Checkbox from "@react/react-spectrum/Checkbox";
 import TextField from "@react/react-spectrum/Textfield";
 import Button from "@react/react-spectrum/Button";
+import buyStore from "../store/buyStore";
 
 class ConfirmDetails extends React.Component{
 
@@ -37,7 +38,7 @@ class ConfirmDetails extends React.Component{
     }
 
     submitDetails = () => {
-
+        buyStore.saveBuyRequest();
     }
 
     render() {

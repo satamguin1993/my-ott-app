@@ -6,6 +6,8 @@ const ActiveStateEnum =
         SELECT_EMAIL_STEP : 3
     }
 
-const ShowAllPackageListTableHeaders = ['Package Id', 'Name', 'Connections', 'Basis', 'Price', 'Status'];
+const ShowAllPackageListTableHeaders = ['Package Id', 'Package Name', 'Connection', 'Basis', 'Price', 'Status'];
 
-export {ActiveStateEnum, ShowAllPackageListTableHeaders};
+const ShowAllInventoryListTableHeaders = ['Package Id', 'Name', 'Connections', 'Basis', 'Price', 'Status', 'User Name', 'Select'];
+
+export {ActiveStateEnum, ShowAllPackageListTableHeaders, ShowAllInventoryListTableHeaders};
